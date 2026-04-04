@@ -9,5 +9,16 @@ while not valid_4bit(a):
 while not valid_4bit(b):
 	b = input("Invalid input. Enter exactly 4 bits for B: ")
 
-print("A=", a)
-print("B=", b)
+def unsigned(bits):
+	return int(bits, 2)
+
+def signed(bits):
+	value = int(bits, 2)
+	if bits[0] == "1":
+		return value - 16
+	return value
+
+print("A unsigned =", unsigned(a))
+print("A signed =", signed(a))
+print("B unsigned =", unsigned(b))
+print("B signed =", signed(b))
