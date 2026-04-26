@@ -18,7 +18,47 @@ def signed(bits):
 		return value - 16
 	return value
 
+def ones_complement(bits):
+	flipped = ""
+	for b in bits:
+		if b == "0":
+			flipped += "1"
+		else:
+			flipped += "0"
+	return flipped
+
+def twos_complement(bits):
+	ones = ones_complement(bits)
+	value = int(ones, 2) + 1
+	return format(value & 0b1111, "04b")
+
+def add_4bit(a, b):
+	total = int(a, 2) + int(b, 2)
+	carry_out = 1 if total > 15 else 0
+	result = format(total & 0b1111, "04b")
+	return result, carry_out
+
 print("A unsigned =", unsigned(a))
 print("A signed =", signed(a))
 print("B unsigned =", unsigned(b))
 print("B signed =", signed(b))
+
+b_twos = twos_complement(b)
+result, carry = add_4bit(a, b_twos)
+
+print("B one's complement =", ones_complement(b))
+print("B two's complement =", b_twos)
+print("A - B result =", result)
+print("Result unsigned =", unsigned(result))
+print("Result signed =", signed(result))
+print("Carry out =", carry)
+
+if carry == 0:
+    print("Unsigned borrow/underflow: YES")
+else:
+    print("Unsigned borrow/underflow: NO")
+
+if (signed(a) - signed(b)) < -8 or (signed(a) - signed(b)) > 7:
+    print("Signed borrow/underflow: YES")
+else:
+    print("Signed borrow/underflow: NO")
